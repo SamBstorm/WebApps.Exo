@@ -1,0 +1,47 @@
+<ion-header>
+  <ion-toolbar> 
+    <ion-buttons slot="end">
+      <ion-button>
+        <ion-icon name="mail"></ion-icon>
+      </ion-button>
+      <ion-button>
+        <ion-icon name="star"></ion-icon>
+      </ion-button>
+      <ion-button>
+        <ion-icon name="planet"></ion-icon>
+      </ion-button>
+      <ion-button>
+        <ion-icon name="rocket"></ion-icon>
+      </ion-button>
+      <ion-button>
+        <ion-icon class="custom-lynx"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>accueil</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+<p>Bonjour à tous, ceci est mon message personnailsé...</p>
+<ion-button expand="full">expand="full"</ion-button>
+<p>permet un bouton aussi large que la vue</p>
+<ion-button expand="block">expand="block"</ion-button>
+<p>permet un bouton large et en block mais ne prennant pas toute la largeur</p>
+<ion-buttons>
+  <ion-button fill="outline" color="primary">"outline""</ion-button>
+  <ion-button fill="clear" color="warning">"clear"</ion-button>
+  <ion-button fill="solid" color="danger">"solid"</ion-button>
+</ion-buttons>
+<p>Fill permet de changer le style du bouton</p>
+<ion-buttons>
+  <ion-button fill="outline" color="danger" shape="round">"round"</ion-button>
+  <ion-button fill="outline" color="danger">undefined</ion-button>
+</ion-buttons>
+<p>Shape permet de changer la forme du bouton</p>
+
+<ion-buttons *ngIf="1>0">
+  <ion-button fill="solid" color="success" shape="round" [disabled]="!isActive" (click)="toggleIsActive()">{{(isActive)?"Click moi":"Click pas"}}</ion-button>
+  <ion-button fill="solid" color="success" shape="round" [disabled]="isActive" (click)="toggleIsActive()">{{(!isActive)?"Click moi":"Click pas"}}</ion-button>
+</ion-buttons>
+<p>Le bouton se désactive si cliqué</p>
+</ion-content>

@@ -8,12 +8,16 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'accueil',
+    redirectTo: 'chrono',
     pathMatch: 'full'
   },
   {
     path: 'accueil',
     loadChildren: () => import('./accueil/accueil.module').then( m => m.AccueilPageModule)
+  },
+  {
+    path: 'chrono',
+    loadChildren: () => import('./chrono/chrono.module').then( m => m.ChronoPageModule)
   },
 ];
 

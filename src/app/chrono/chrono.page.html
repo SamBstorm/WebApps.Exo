@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>chrono</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item>
+    {{time | timerFormat}}
+  </ion-item>
+  <ion-buttons>
+    <ion-button (click)="startTimer()" [disabled]="timer">
+      <ion-icon color="success" name="play"></ion-icon>
+    </ion-button>
+    <ion-button (click)="stopTimer()" [disabled]="!timer">
+      <ion-icon color="danger" name="pause"></ion-icon>
+    </ion-button>
+    <ion-button (click)="resetTimer()" [disabled]="time <= 0">
+      <ion-icon color="primary" name="refresh-circle"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+</ion-content>

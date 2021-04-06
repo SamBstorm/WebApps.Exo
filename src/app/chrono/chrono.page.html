@@ -41,6 +41,7 @@
     <ion-item-divider>
       <ion-label>
         <ion-toggle [(ngModel)]="isReorder"></ion-toggle>{{ "Temps :" | uppercase}}
+        <ion-button (click) ="reoderFavorite()"><ion-icon name="star"></ion-icon></ion-button>
       </ion-label>
     </ion-item-divider>
     <ion-reorder-group  (ionItemReorder)="changeOrder($event)" [disabled]="!isReorder">

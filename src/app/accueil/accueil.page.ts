@@ -1,3 +1,4 @@
+import { ChronoSaveService } from './../Services/chrono-save.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -8,8 +9,9 @@ import { Component, OnInit } from '@angular/core';
 export class AccueilPage implements OnInit {
 
   public isActive : boolean = true;
+  public get nbTimes(): number {return this.chronos.times.length;}
 
-  constructor() { }
+  constructor(private chronos : ChronoSaveService) { }
 
   ngOnInit() {
   }

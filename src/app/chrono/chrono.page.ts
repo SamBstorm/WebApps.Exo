@@ -1,3 +1,4 @@
+import { ChronoSaveService } from './../Services/chrono-save.service';
 import { RecordedTime } from './../models/recorded-time';
 import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
@@ -13,15 +14,14 @@ export class ChronoPage implements OnInit {
 
   public time : number;
   public timer : any;
-  public times : RecordedTime[];
+  public get times() : RecordedTime[] {return this.chronoSave.times;}
   public get bestTime() : number{ return this.times.map(t=>t.time).sort((a,b)=>a-b)[0]??0}
   public isReorder : boolean = false;
 
-  constructor(private alert : AlertController) { }
+  constructor(private alert : AlertController, private chronoSave : ChronoSaveService) { }
 
   ngOnInit() {
     this.time = 0;
-    this.times = [];
   }
 
   startTimer(){
@@ -39,49 +39,32 @@ export class ChronoPage implements OnInit {
   }
 
   saveTime(){
-    this.times.push({time: this.time, recordDate : new Date()})
+    this.chronoSave.addChrono({time: this.time, recordDate : new Date(), favorite : false});
     this.time = 0;
     console.log(this.times);
     
   }
 
   deleteTime(object : RecordedTime){
+    const pipe = new TimerFormatPipe();
     this.alert.create({
-      header : "Test",
-      message : "Coucou",
-      buttons : ["Bye bye!",{
-        text :"Ciao!",
-        handler : ()=>console.log(object)
+      header : "Suppression",
+      message : `Êtes-vous sûr de vouloir supprimer le temps ${pipe.transform(object.time)} ?`,
+      buttons : ["Annuler",{
+        text :"Supprimer",
+        handler : ()=>{
+          console.log(object)
+          this.chronoSave.removeChrono(object);
+        }
       }]
     }).then((a)=>a.present());
-    //this.times = this.times.filter(t=> t !== object);
   }
 
   changeOrder(event:CustomEvent<ItemReorderEventDetail>){
-    console.log(event);
     let start = event.detail.from ;
     let end = (event.detail.to>=this.times.length)?event.detail.to-1:event.detail.to;
-    console.log(`${start} - ${end}`);
-    if(event.detail.from < event.detail.to){
-      for (let i = start; i < end; i++) {
-        let temp = this.times[i+1];
-        this.times[i+1] = this.times[i]
-        this.times[i] = temp;
-        console.log(`Exchange : ${i+1} and ${i}`);
-        
-      }
-    } 
-    else{                                                                      //[0,1,2,3,4,5,6] => start:4  - end:6
-      for (let i = start; i > end; i--) {
-        let temp = this.times[i-1];
-        this.times[i-1] = this.times[i]
-        this.times[i] = temp;
-        console.log(`Exchange : ${i-1} and ${i}`);
-      }
-    }
-    event.detail.complete();
-    console.log(this.times);
-    
+    this.chronoSave.changeOrder(start, end);
+    event.detail.complete();    
   }
 
   saveAsFavorite(){
@@ -94,11 +77,15 @@ export class ChronoPage implements OnInit {
     {
       text : "Save",
       handler: (t)=>{
-        t.favorite = true;
+        this.chronoSave.toggleTimeFavorite(t);
         console.log(this.times);
       }
     }]
     }).then(a=>a.present());
+  }
+
+  reoderFavorite(){
+    this.chronoSave.reorderFavorite();
   }
 
 }
